@@ -1,10 +1,37 @@
 ---
-!Room
-name: Emma's Study
-description: Part spare bedroom, part office. There is a desk and computer near the window on the south wall, and a queen sized bed pushed against the north wall.
-hideName: False
-hideDescription: False
-items:
-  - !Item
-    name: bed
-    description: Surpisingly comfortable for a guest bed. The doona is royal blue with golden flowers embroidered into it.
+- !Room
+    name: Emma's Study
+    description: Part spare bedroom, part office. There is a desk and computer near the window on the south wall, and a queen sized bed pushed against the north wall.
+    hideName: False
+    hideDescription: False
+    items:
+      - !Item
+        name: bed
+        description: Surpisingly comfortable for a guest bed. The doona is royal blue with golden flowers embroidered into it.
+      - !Item
+        name: desk
+        description: A plain white desk. it is neither particularly neat or particularly tidy.
+      - !Item
+        name: pens
+        article: some
+        plural: True
+        description: A collection of coloured pens are scattered across the desk.
+      - !Item
+        name: cat
+        useDefiniteArticle: True
+        description: Her name is Bebe, and she is precious.
+    exits:
+      - !Exit
+        direction: west
+        roomName: Hall
+- !Room
+    name: Hall
+    description: A fairly plan hallway leading to the front door.
+    exits:
+        - !Exit
+          direction: east
+          roomName: Emma's Study
+    items:
+        - !Item
+          name: ping-pong ball
+          description: This looks like one of Bebe's toys.

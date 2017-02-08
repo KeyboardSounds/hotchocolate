@@ -2,6 +2,6 @@ import hotchocolate.worldobjects
 import yaml
 
 f = open("rooms/rooms.yaml")
-r = yaml.load(f)
+roomList = yaml.load(f)
+r = roomList[1]
 print(r.outputText())
-print(r.items)
