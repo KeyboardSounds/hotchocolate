@@ -1,0 +1,10 @@
+---
+!Room
+name: Emma's Study
+description: Part spare bedroom, part office. There is a desk and computer near the window on the south wall, and a queen sized bed pushed against the north wall.
+hideName: False
+hideDescription: False
+items:
+  - !Item
+    name: bed
+    description: Surpisingly comfortable for a guest bed. The doona is royal blue with golden flowers embroidered into it.
