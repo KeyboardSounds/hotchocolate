@@ -1,7 +1,7 @@
-import hotchocolate.worldobjects
+from hotchocolate.game import Game
 import yaml
+import os
 
-f = open("rooms/rooms.yaml")
-roomList = yaml.load(f)
-r = roomList[1]
-print(r.outputText())
+roomFilePath = os.path.abspath("rooms/rooms.yaml")
+game = Game(roomFilePath)
+game.run()
