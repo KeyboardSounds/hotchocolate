@@ -1,7 +1,7 @@
 ---
 - !Room
     name: Emma's Study
-    description: Part spare bedroom, part office. There is a desk and computer near the window on the south wall, and a queen sized bed pushed against the north wall.
+    description: Part spare bedroom, part office. There is a desk and computer near the window on the south wall, and a queen sized bed pushed against the north wall. The hall is to the west.
     hideName: False
     hideDescription: False
     items:
@@ -26,7 +26,7 @@
         roomName: Hall
 - !Room
     name: Hall
-    description: A fairly plan hallway leading to the front door.
+    description: A fairly plain hallway leading to the front door.
     exits:
         - !Exit
           direction: east

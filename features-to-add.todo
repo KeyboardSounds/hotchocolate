@@ -9,3 +9,5 @@ Scenes:
 	☐ implement scenes
 Commands:
 	☐ add commands for moving between rooms
+	☐ add examine command
+	☐ add quit command

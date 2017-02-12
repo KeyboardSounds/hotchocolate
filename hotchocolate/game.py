@@ -14,7 +14,7 @@ class Game(metaclass=_Singleton):
 	running = False
 	def __init__(self, roomFilePath, uiClass=ui.CommandLineUI):
 		self.currentRoom = None
-		self.roomList = None
+		self.rooms = {}
 		self.ui = uiClass()
 		self.roomFilePath = roomFilePath
 	@staticmethod
@@ -26,8 +26,13 @@ class Game(metaclass=_Singleton):
 
 	def loadData(self):
 		f = open(self.roomFilePath)
-		self.roomList = yaml.load(f)
-		self.currentRoom = self.roomList[0] #TODO: make this configurable from file
+		roomsAsList = yaml.load(f)
+
+		# make a dictionary from the room list, with the room name as the key
+		for room in roomsAsList:
+			self.rooms[room.name] = room
+
+		self.currentRoom = roomsAsList[0] #TODO: make this configurable from file
 
 	def mainLoop(self):
 		while True:
