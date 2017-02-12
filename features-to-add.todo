@@ -1,0 +1,11 @@
+World Objects:
+	☐ add containers and supporters
+	☐ add article-guesser: see http://stackoverflow.com/questions/1288291/how-can-i-correctly-prefix-a-word-with-a-and-an
+Game:
+	☐ add configuration for game start eg. starting room
+	☐ add saving - pickle the Game instance
+	☐ add inventory
+Scenes:
+	☐ implement scenes
+Commands:
+	☐ add commands for moving between rooms
