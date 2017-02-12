@@ -13,7 +13,7 @@ class CommandInterpreter():
 	def __init__(self, game, commandDict=None):
 		self.game = game
 		if commandDict is None:
-			self.commandDict = basicCommandDict
+			self.commandDict = BasicCommands.basicCommandDict
 		else:
 			self.commandDict = commandDict
 
@@ -44,18 +44,18 @@ class CommandInterpreter():
 
 		if verbIdx == (len(wordList) -1):
 			# no words apart from verb in command, so no command has no
-			# arguments
-			self.commandDict[verb](self.game)
+			# arguments that need to be passed to its parser function
+			self.commandDict[verb](self.game, verb)
 		else:
 			args = wordList[verbIdx+1:]
-			self.commandDict[verb](self.game, args)
+			self.commandDict[verb](self.game, verb, args)
 
 class BasicCommands():
 	"""
 	Implementations of some basic, core commands
 	"""
-	@staticmethod
-	def look(game):
+
+	def look(game, verb):
 		"""
 		Displays the room text
 		:param game: the game object to get
@@ -66,5 +66,5 @@ class BasicCommands():
 		else:
 			game.displayCurrentRoom()
 
-basicCommandDict = {"look": BasicCommands.look,
-			"l": BasicCommands.look}
+	basicCommandDict = {"look": look,
+				"l": look}
