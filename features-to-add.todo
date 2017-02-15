@@ -1,13 +1,16 @@
 World Objects:
-	☐ add containers and supporters
+	☐ add containers (eg a box) and supporters (eg a table)
+	☐ add people and animals
 	☐ add article-guesser: see http://stackoverflow.com/questions/1288291/how-can-i-correctly-prefix-a-word-with-a-and-an
 Game:
 	☐ add configuration for game start eg. starting room
-	☐ add saving - pickle the Game instance
-	☐ add inventory
+	☐ add saving - serialise game object
+	✔ add inventory @done(2017-02-15 17:11) @project(Game)
 Scenes:
 	☐ implement scenes
 Commands:
-	☐ add commands for moving between rooms
-	☐ add examine command
+	✔ add commands for moving between rooms @done(2017-02-12 12:52) @project(Commands)
+	✔ add examine command @done(2017-02-15 17:11) @project(Commands)
 	☐ add quit command
+	✔ add take command @done(2017-02-15 17:11) @project(Commands)
+	☐ add drop command

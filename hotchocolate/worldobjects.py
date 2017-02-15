@@ -1,7 +1,6 @@
 import yaml
 
 USE_OXFORD_COMMA = True
-VOWEL_SET = set(["a","e","i","o","u"])
 SEE_INTRODUCTION = "You can see "
 DEFINITE_ARTICLE = "the"
 
@@ -20,11 +19,19 @@ class Item():
 		than one of it (eg. "apples")
 	:type article: string
 	"""
-	def __init__(self, name, description, listed=True, plural=False, article="a", useDefiniteArticle=False):
+	def __init__(self,
+				name,
+				description,
+				listed=True,
+				plural=False,
+				article="a",
+				useDefiniteArticle=False,
+				takeable=True):
 		self.name = name
 		self.description = description
 		self.listed = listed
 		self.plural = plural
+		self.takeable = takeable
 		self.useDefiniteArticle = useDefiniteArticle
 		if self.useDefiniteArticle:
 			self.article = DEFINITE_ARTICLE
@@ -34,12 +41,15 @@ class Item():
 	def __repr__(self):
 		return self.name
 
+	def outputText(self):
+		return self.description
+
 # Constructor for YAML
 def itemConstructor(loader, node) :
 	fields = loader.construct_mapping(node)
 	return Item(**fields)
 
-yaml.add_constructor('!Item', itemConstructor)
+yaml.add_constructor('!Item', itemConstructor, yaml.SafeLoader)
 
 class Room():
 	"""
@@ -66,16 +76,34 @@ class Room():
 				hideItems=False,
 				hideName=False,
 				hideDescription=False,
-				items=[],
-				exits=[]
+				items=None,
+				exits=None
 				):
 		self.name = name
 		self.description = description
+
+
+	def setValues(self,
+				hideItems=False,
+				hideName=False,
+				hideDescription=False,
+				items=None,
+				exits=None):
+
 		self.hideItems = hideItems
-		self.hideName = hideName or False
+		self.hideName = hideName
 		self.hideDescription = hideDescription
-		self.items = items
-		self.exits = exits
+
+		if exits is None:
+			self.exits = []
+		else:
+			self.exits = exits
+		self.items = {}
+
+		if items is not None:
+			# construct dictionary from item list
+			for i in items:
+				self.items[i.name] = i
 
 	def __repr__(self):
 		return self.name
@@ -102,9 +130,9 @@ class Room():
 		"""
 		# figure out which items we should list
 		listedItems = []
-		for i in self.items:
-			if i.listed == True:
-				listedItems.append(i)
+		for name, item in self.items.items():
+			if item.listed == True:
+				listedItems.append(item)
 
 		# construct the list
 		text = SEE_INTRODUCTION
@@ -115,14 +143,15 @@ class Room():
 		i = listedItems[0]
 		text += i.article + " " + i.name
 
-		# add all the remaining items except the last one
+
 		if len(listedItems) == 1:
 			return text + "."
 		else:
+			# add all the remaining items except the last one
 			for i in listedItems[1:-1]:
 				text += ", " + i.article + " " + i.name
 
-		# add last item - we need to put an and before it
+		# add last item - we need to put an 'and' before it
 		if USE_OXFORD_COMMA:
 			text += ","
 
@@ -131,12 +160,30 @@ class Room():
 
 		return text
 
+	def getItem(self, itemName):
+		"""
+		:param itemName: the name of the item to return
+		:type itemName: string
+		:return: item with name itemName or None if no such item exists
+		:rtype: Item
+		"""
+		if itemName in self.items:
+			return self.items[itemName]
+		else:
+			return None
+
+	def removeItem(self, itemName):
+		if itemName in self.items:
+			del self.items[itemName]
+
 # Constructor for YAML
 def roomConstructor(loader, node) :
 	fields = loader.construct_mapping(node)
-	return Room(**fields)
+	room = Room(fields.pop("name"), fields.pop("description"))
+	yield room
+	room.setValues(**fields)
 
-yaml.add_constructor('!Room', roomConstructor)
+yaml.add_constructor('!Room', roomConstructor, yaml.SafeLoader)
 
 class Exit():
 	"""
@@ -151,11 +198,11 @@ class Exit():
 		self.roomName = roomName
 
 	def __repr__(self):
-		return "{}: {}".format(self.direction, self.roomName)
+		return "{}: {}".format(self.direction, self.roomName, yaml.SafeLoader)
 
 # Constructor for YAML
 def exitConstructor(loader, node) :
 	fields = loader.construct_mapping(node)
 	return Exit(**fields)
 
-yaml.add_constructor('!Exit', exitConstructor)
+yaml.add_constructor('!Exit', exitConstructor, yaml.SafeLoader)

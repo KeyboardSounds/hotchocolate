@@ -47,6 +47,7 @@ class CommandInterpreter():
 		if verbIdx == (len(wordList) -1):
 			# no words apart from verb in command, so no command has no
 			# arguments that need to be passed to its parser function
+			print("foo")
 			self.commandDict[verb](self.game, verb)
 		else:
 			args = wordList[verbIdx+1:]
@@ -137,6 +138,47 @@ class BasicCommands():
 			game.currentRoom = game.rooms[roomName]
 			game.displayCurrentRoom()
 
+	def examine(game, verb, args):
+		if not game.isRunning():
+			raise GameNotRunningException()
+
+		itemName = " ".join(args)
+		item = game.getItem(itemName)
+
+		if item is None:
+			game.ui.displayText("That isn't here.")
+		else:
+			game.ui.displayText(item.outputText())
+
+	def take(game, verb, args):
+		if not game.isRunning():
+			raise GameNotRunningException()
+
+		itemName = " ".join(args)
+
+		if itemName == "all":
+			# we're going to be removing items from this dictionary, so we need
+			# to copy it so we can iterate through them safely
+			items = game.currentRoom.items.copy()
+			for name, item in items.items():
+				if item.takeable:
+					game.currentRoom.removeItem(name)
+					game.addToInventory(item)
+			game.ui.displayText("Taken.")
+			return
+
+		item = game.getItem(itemName)
+		if item is None:
+			game.ui.displayText("That isn't here.")
+		elif item.name in game.inventory:
+			game.ui.displayText("You're already carrying that.")
+		elif item.takeable == False:
+			game.ui.displayText("You can't take that.")
+		else:
+			game.removeItem(item.name)
+			game.addToInventory(item)
+			game.ui.displayText("Taken.")
+
 	basicCommandDict = {"look": look,
 				"l": look,
 				"north": go,
@@ -159,5 +201,8 @@ class BasicCommands():
 				"u": go,
 				"down": go,
 				"d": go,
-				"go": go
+				"go": go,
+				"examine": examine,
+				"x": examine,
+				"take": take
 				}

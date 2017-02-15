@@ -5,25 +5,27 @@
     hideName: False
     hideDescription: False
     items:
-      - !Item
-        name: bed
-        description: Surpisingly comfortable for a guest bed. The doona is royal blue with golden flowers embroidered into it.
-      - !Item
-        name: desk
-        description: A plain white desk. it is neither particularly neat or particularly tidy.
-      - !Item
-        name: pens
-        article: some
-        plural: True
-        description: A collection of coloured pens are scattered across the desk.
-      - !Item
-        name: cat
-        useDefiniteArticle: True
-        description: Her name is Bebe, and she is precious.
+        - !Item
+          name: bed
+          description: Surpisingly comfortable for a guest bed. The doona is royal blue with golden flowers embroidered into it.
+          takeable: False
+        - !Item
+          name: desk
+          description: A plain white desk. it is neither particularly neat or particularly tidy.
+        - !Item
+          name: pens
+          article: some
+          plural: True
+          description: A collection of coloured pens are scattered across the desk.
+        - !Item
+          name: cat
+          useDefiniteArticle: True
+          takeable: False
+          description: Her name is Bebe, and she is precious.
     exits:
-      - !Exit
-        direction: west
-        roomName: Hall
+        - !Exit
+          direction: west
+          roomName: Hall
 - !Room
     name: Hall
     description: A fairly plain hallway leading to the front door.

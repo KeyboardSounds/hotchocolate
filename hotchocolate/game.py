@@ -3,30 +3,21 @@ import hotchocolate.worldobjects as worldobjects
 import hotchocolate.commands as commands
 import yaml
 
-class _Singleton(type):
-	_instances = {}
-	def __call__(cls, *args, **kwargs):
-		if cls not in cls._instances:
-			cls._instances[cls] = super(_Singleton, cls).__call__(*args, **kwargs)
-		return cls._instances[cls]
-
-class Game(metaclass=_Singleton):
+class Game():
 	running = False
 	def __init__(self, roomFilePath, uiClass=ui.CommandLineUI):
 		self.currentRoom = None
 		self.rooms = {}
 		self.ui = uiClass()
 		self.roomFilePath = roomFilePath
-	@staticmethod
-	def isRunning():
-		return Game.running
+		self.inventory = {}
 
-	def getInstance(self):
-		return self
+	def isRunning(self):
+		return Game.running
 
 	def loadData(self):
 		f = open(self.roomFilePath)
-		roomsAsList = yaml.load(f)
+		roomsAsList = yaml.safe_load(f)
 
 		# make a dictionary from the room list, with the room name as the key
 		for room in roomsAsList:
@@ -49,6 +40,24 @@ class Game(metaclass=_Singleton):
 		self.loadData()
 		self.displayCurrentRoom()
 		self.mainLoop()
+
+	def getItem(self, itemName):
+		if itemName in self.inventory:
+			item = self.inventory[itemName]
+		else:
+			# it's not in our inventory, so check the current room
+			item = self.currentRoom.getItem(itemName)
+
+		return item
+
+	def removeItem(self, itemName):
+		if itemName in self.inventory:
+			del self.inventory[itemName]
+		else:
+			self.currentRoom.removeItem(itemName)
+
+	def addToInventory(self, item):
+		self.inventory[item.name] = item
 
 class GameNotRunningException(Exception):
 	def __init__(self, msg=None):
