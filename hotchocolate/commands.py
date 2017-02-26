@@ -1,4 +1,5 @@
 from hotchocolate.game import *
+import sys
 
 class CommandInterpreter():
 	"""
@@ -47,7 +48,6 @@ class CommandInterpreter():
 		if verbIdx == (len(wordList) -1):
 			# no words apart from verb in command, so no command has no
 			# arguments that need to be passed to its parser function
-			print("foo")
 			self.commandDict[verb](self.game, verb)
 		else:
 			args = wordList[verbIdx+1:]
@@ -179,6 +179,11 @@ class BasicCommands():
 			game.addToInventory(item)
 			game.ui.displayText("Taken.")
 
+	def quit(game, verb):
+		assent = game.ui.askYesNo("Do you really want to quit?")
+		if assent:
+			sys.exit()
+
 	basicCommandDict = {"look": look,
 				"l": look,
 				"north": go,
@@ -204,5 +209,7 @@ class BasicCommands():
 				"go": go,
 				"examine": examine,
 				"x": examine,
-				"take": take
+				"take": take,
+				"quit": quit,
+				"q": quit
 				}

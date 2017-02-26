@@ -6,11 +6,12 @@ Game:
 	☐ add configuration for game start eg. starting room
 	☐ add saving - serialise game object
 	✔ add inventory @done(2017-02-15 17:11) @project(Game)
+	☐ document game class better
 Scenes:
 	☐ implement scenes
 Commands:
 	✔ add commands for moving between rooms @done(2017-02-12 12:52) @project(Commands)
 	✔ add examine command @done(2017-02-15 17:11) @project(Commands)
-	☐ add quit command
+	✔ add quit command @done(2017-02-26 12:42) @project(Commands)
 	✔ add take command @done(2017-02-15 17:11) @project(Commands)
 	☐ add drop command

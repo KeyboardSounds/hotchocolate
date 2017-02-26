@@ -22,6 +22,16 @@ class AbstractUI(ABC):
 		"""
 		pass
 
+	def askYesNo(self, question):
+		"""
+		Asks the player a yes or no question and gets their response
+		:param question: the question to ask the player
+		:type question: string
+		:return: True if player says yes, False otherwise
+		:rtype: boolean
+		"""
+		pass
+
 class CommandLineUI(AbstractUI):
 	"""
 	Command line implementation of abstract class AbstractUI.
@@ -34,3 +44,14 @@ class CommandLineUI(AbstractUI):
 
 	def displayText(self, text):
 		print(text)
+
+	def askYesNo(self, question):
+		while True:
+			self.displayText(question + " (Y/N)")
+			inp = self.getUserInput().lower()
+			if inp == "y" or inp == "yes":
+				return True
+			elif inp == "n" or inp == "no":
+				return False
+			else:
+				self.displayText("Please type yes or no.")
